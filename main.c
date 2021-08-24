@@ -75,49 +75,52 @@ char	*resolve_path(char *command, char *path_env)
 	return (NULL);
 }
 
-int main(int argc, char **argv, char **envp)
+int	first_exec(int pipe_fds[2], char **argv, char **envp)
 {
-	int		pipe_fds[2];
 	pid_t	pid;
-	int		status;
-	char	buf[32];
 	int		file_fd;
 	char	**command;
 	char	*command_full_path;
-
-	memset(buf, 0, sizeof(buf));
-
-	access_file(argv[1]);
-	file_fd = open_file(argv[1]);
-	command = split_command(argv[2]);
-	command_full_path = resolve_path(command[0], get_env("PATH", envp));
-	if (pipe(pipe_fds) < 0)
-	{
-		perror("pipe()");
-		return -1;
-	}
 
 	if ((pid = fork()) < 0)
 	{
 		perror("fork()");
 		return -1;
 	}
+
+	access_file(argv[1]);
+	file_fd = open_file(argv[1]);
+	command = split_command(argv[2]);
+	command_full_path = resolve_path(command[0], get_env("PATH", envp));
+	// infileの内容を第三引数のコマンドに標準入力として渡すために、infileのfdを標準入力0に置き換えている
 	dup2(file_fd, 0);
 	if (pid == 0)
 	{
+		// 使用しないためcloseしておく
+        close(pipe_fds[0]);
+		// コマンドの実行結果を第四引数のコマンドに標準入力として渡すために、標準出力1をpipe_fds[1]（書き込み側）に置き換えている
+		dup2(pipe_fds[1], 1);
 		if (!command_full_path)
 			perror("command_full_path()");
 		if (execve(command_full_path, &command[0], envp) < 0)
 			perror("execve()");
-		close(pipe_fds[0]);
 		close(pipe_fds[1]);
+		exit (0);
 	}
-	else
-	{
-		close(pipe_fds[0]);
-		close(pipe_fds[1]);
+}
 
-		waitpid(pid, &status, 0);
-    }
+int main(int argc, char **argv, char **envp)
+{
+	int		pipe_fds[2];
+	int		first_pid;
+	int		last_pid;
+
+	if (pipe(pipe_fds) < 0)
+	{
+		perror("pipe()");
+		return -1;
+	}
+
+	first_pid = first_exec(pipe_fds, argv, envp);
     return 0;
 }
