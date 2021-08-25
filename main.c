@@ -7,6 +7,13 @@ void	check_readability(char *file)
 		perror("access()");
 }
 
+// fileが存在しているか、書き込み権限があるかを確認する
+void	check_writability(char *file)
+{
+	if (access(file, F_OK) < 0 && access(file, W_OK) < 0)
+		perror("access()");
+}
+
 // commandが実行可能化をチェックする
 int		is_executable(char *command)
 {
@@ -15,6 +22,7 @@ int		is_executable(char *command)
 	return (0);
 }
 
+// ファイルを読み込み、書き込みができる状態で開く
 int		open_file(char *file)
 {
 	int	file_fd;
@@ -110,6 +118,41 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
 	return (pid);
 }
 
+int	last_exec(int pipe_fds[2], char **argv, char **envp)
+{
+	pid_t	pid;
+	int		file_fd;
+	char	**command;
+	char	*command_full_path;
+
+	if ((pid = fork()) < 0)
+	{
+		perror("fork()");
+		return -1;
+	}
+
+	check_writability(argv[4]);
+	file_fd = open_file(argv[4]);
+	command = split_command(argv[3]);
+	command_full_path = resolve_path(command[0], get_env("PATH", envp));
+	// pipe_fds[1]（書き込み側）で書き込まれた内容を第三引数で受け取るため、pipe_fds[0]（読み込み側）を標準入力0に置き換えている
+	dup2(pipe_fds[0], 0);
+	if (pid == 0)
+	{
+		// 使用しないためcloseしておく
+        close(pipe_fds[1]);
+		close(pipe_fds[0]);
+		// コマンドの実行結果を第五引数のコマンドに標準出力として渡すために、標準出力1をfile_fdに置き換えている
+		dup2(file_fd, 1);
+		if (!command_full_path)
+			perror("command_full_path()");
+		if (execve(command_full_path, &command[0], envp) < 0)
+			perror("execve()");
+		exit (0);
+	}
+	return (pid);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	int		pipe_fds[2];
@@ -123,5 +166,6 @@ int main(int argc, char **argv, char **envp)
 	}
 
 	first_pid = first_exec(pipe_fds, argv, envp);
+	last_pid = last_exec(pipe_fds, argv, envp);
     return 0;
 }
