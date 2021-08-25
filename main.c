@@ -159,6 +159,12 @@ int main(int argc, char **argv, char **envp)
 	int		first_pid;
 	int		last_pid;
 
+	if (argc != 5)
+	{
+		ft_putstr_fd("Number of argument is incorrect.", 1);
+		exit(0);
+	}
+
 	if (pipe(pipe_fds) < 0)
 	{
 		perror("pipe()");
