@@ -1,7 +1,7 @@
 #include "./pipex.h"
 
 // fileが存在しているか、読み取り権限があるかを確認する
-void	access_file(char *file)
+void	check_readability(char *file)
 {
 	if (access(file, F_OK) < 0 && access(file, R_OK) < 0)
 		perror("access()");
@@ -88,7 +88,7 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
 		return -1;
 	}
 
-	access_file(argv[1]);
+	check_readability(argv[1]);
 	file_fd = open_file(argv[1]);
 	command = split_command(argv[2]);
 	command_full_path = resolve_path(command[0], get_env("PATH", envp));
@@ -107,6 +107,7 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
 		close(pipe_fds[1]);
 		exit (0);
 	}
+	return (pid);
 }
 
 int main(int argc, char **argv, char **envp)
