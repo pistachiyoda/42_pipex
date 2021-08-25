@@ -7,11 +7,14 @@ void	check_readability(char *file)
 		perror("access()");
 }
 
-// fileが存在しているか、書き込み権限があるかを確認する
+// fileが存在する場合、書き込み権限があるかを確認する(fileが存在しない場合はopen_or_create_fileで新規作成する)
 void	check_writability(char *file)
 {
-	if (access(file, F_OK) < 0 && access(file, W_OK) < 0)
+	if (access(file, W_OK) < 0)
+	{
 		perror("access()");
+		exit(1);
+	}
 }
 
 // commandが実行可能化をチェックする
@@ -28,6 +31,18 @@ int		open_file(char *file)
 	int	file_fd;
 
 	file_fd = open(file, O_RDWR);
+	if (file_fd < 0)
+		perror("open()");
+	return (file_fd);
+}
+
+// ファイルを読み込み、書き込みができる状態で開く。ファイルが存在しない場合は読み込み、書き込み権限を与えた状態でファイルを新規作成する。
+int		open_or_create_file(char *file)
+{
+	int	file_fd;
+
+	file_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (file_fd < 0)
 		perror("open()");
 	return (file_fd);
@@ -131,25 +146,25 @@ int	last_exec(int pipe_fds[2], char **argv, char **envp)
 		return -1;
 	}
 
+	if (pid != 0)
+		return (pid);
+
 	check_writability(argv[4]);
-	file_fd = open_file(argv[4]);
+	file_fd = open_or_create_file(argv[4]);
 	command = split_command(argv[3]);
 	command_full_path = resolve_path(command[0], get_env("PATH", envp));
 	// pipe_fds[1]（書き込み側）で書き込まれた内容を第三引数で受け取るため、pipe_fds[0]（読み込み側）を標準入力0に置き換えている
 	dup2(pipe_fds[0], 0);
-	if (pid == 0)
-	{
-		// 使用しないためcloseしておく
-        close(pipe_fds[1]);
-		close(pipe_fds[0]);
-		// コマンドの実行結果を第五引数のコマンドに標準出力として渡すために、標準出力1をfile_fdに置き換えている
-		dup2(file_fd, 1);
-		if (!command_full_path)
-			perror("command_full_path()");
-		if (execve(command_full_path, &command[0], envp) < 0)
-			perror("execve()");
-		exit (0);
-	}
+	// 使用しないためcloseしておく
+	close(pipe_fds[1]);
+	close(pipe_fds[0]);
+	// コマンドの実行結果を第五引数のコマンドに標準出力として渡すために、標準出力1をfile_fdに置き換えている
+	dup2(file_fd, 1);
+	if (!command_full_path)
+		perror("command_full_path()");
+	if (execve(command_full_path, &command[0], envp) < 0)
+		perror("execve()");
+	exit (0);
 	return (pid);
 }
 
