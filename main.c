@@ -10,11 +10,12 @@ void	check_readability(char *file)
 // fileが存在する場合、書き込み権限があるかを確認する(fileが存在しない場合はopen_or_create_fileで新規作成する)
 void	check_writability(char *file)
 {
-	if (access(file, W_OK) < 0)
-	{
-		perror("access()");
-		exit(1);
-	}
+	if (access(file, F_OK) == 0)
+		if (access(file, W_OK) < 0)
+		{
+			perror("access()");
+			exit(1);
+		}
 }
 
 // commandが実行可能化をチェックする
@@ -188,5 +189,7 @@ int main(int argc, char **argv, char **envp)
 
 	first_pid = first_exec(pipe_fds, argv, envp);
 	last_pid = last_exec(pipe_fds, argv, envp);
-    return 0;
+	// waitpid(first_pid, NULL, 0);
+	// waitpid(last_pid, NULL, 0);
+    exit (0);
 }
