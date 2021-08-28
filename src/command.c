@@ -67,7 +67,7 @@ void	handle_command(char *raw_command, char **envp)
 		error("split_command()", NULL, NULL);
 	command_full_path = resolve_path(command[0], get_env("PATH", envp));
 	if (command_full_path == NULL)
-		error("resolve_full_path()", command, NULL);
+		error_str("command not found", command, NULL);
 	execve(command_full_path, &command[0], envp);
 	error("execve()", command, command_full_path);
 }
