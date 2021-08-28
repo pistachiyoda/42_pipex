@@ -74,6 +74,20 @@ char	**split_command(char *unformatted_command)
 	return (command);
 }
 
+// 二次元配列をfreeする
+void	free_2d_array(char **two_d_array)
+{
+	int i;
+
+	i = 0;
+	while(two_d_array[i] != NULL)
+	{
+		free(two_d_array[i]);
+		i++;
+	}
+	free(two_d_array);
+}
+
 // path_envの中からcommandとつなげて実行可能なものを探す
 char	*resolve_path(char *command, char *path_env)
 {
