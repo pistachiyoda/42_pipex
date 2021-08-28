@@ -128,18 +128,18 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
 
 	if (pid == 0)
 	{
-		check_readability(argv[1]);
-		file_fd = open_file(argv[1]);
-		// infileの内容を第三引数のコマンドに標準入力として渡すために、infileのfdを標準入力0に置き換えている
-		dup2(file_fd, 0);
-		command = split_command(argv[2]);
-		command_full_path = resolve_path(command[0], get_env("PATH", envp));
 		// 使用しないためcloseしておく
         close(pipe_fds[0]);
-		// コマンドの実行結果を第四引数のコマンドに標準入力として渡すために、標準出力1をpipe_fds[1]（書き込み側）に置き換えている
-		dup2(pipe_fds[1], 1);
+		check_readability(argv[1]);
+		file_fd = open_file(argv[1]);
+		command = split_command(argv[2]);
+		command_full_path = resolve_path(command[0], get_env("PATH", envp));
 		if (!command_full_path)
 			perror("command_full_path()");
+		// infileの内容を第三引数のコマンドに標準入力として渡すために、infileのfdを標準入力0に置き換えている
+		dup2(file_fd, 0);
+		// コマンドの実行結果を第四引数のコマンドに標準入力として渡すために、標準出力1をpipe_fds[1]（書き込み側）に置き換えている
+		dup2(pipe_fds[1], 1);
 		execve(command_full_path, &command[0], envp);
 		close(pipe_fds[1]);
 		close(file_fd);
@@ -163,21 +163,21 @@ int	last_exec(int pipe_fds[2], char **argv, char **envp)
 
 	if (pid == 0)
 	{
-		// pipe_fds[1]（書き込み側）で書き込まれた内容を第三引数で受け取るため、pipe_fds[0]（読み込み側）を標準入力0に置き換えている
-		dup2(pipe_fds[0], 0);
+		// 使用しないためcloseしておく
+		close(pipe_fds[1]);
 		check_writability(argv[4]);
 		file_fd = open_or_create_file(argv[4]);
 		command = split_command(argv[3]);
 		command_full_path = resolve_path(command[0], get_env("PATH", envp));
-		// 使用しないためcloseしておく
-		close(pipe_fds[1]);
-		close(pipe_fds[0]);
-		// コマンドの実行結果を第五引数のコマンドに標準出力として渡すために、標準出力1をfile_fdに置き換えている
-		dup2(file_fd, 1);
 		if (!command_full_path)
 			perror("command_full_path()");
+		// pipe_fds[1]（書き込み側）で書き込まれた内容を第三引数で受け取るため、pipe_fds[0]（読み込み側）を標準入力0に置き換えている
+		dup2(pipe_fds[0], 0);
+		// コマンドの実行結果を第五引数のコマンドに標準出力として渡すために、標準出力1をfile_fdに置き換えている
+		dup2(file_fd, 1);
 		if (execve(command_full_path, &command[0], envp) < 0)
 			perror("execve()");
+		close(pipe_fds[0]);
 		exit(1);
 	}
 	return (pid);
