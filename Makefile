@@ -1,7 +1,7 @@
 NAME = pipex
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
-CFILES = ./main.c
+CFILES = ./src/main.c ./src/exec.c ./src/error.c ./src/file.c ./src/command.c
 OBJ = $(CFILES:.c=.o)
 LIBS = -Llibft -lft
 LIBFT = ./libft/libft.a
