@@ -21,6 +21,6 @@ char	*get_env(char *key, char **envp);
 char	**split_command(char *unformatted_command);
 char	*resolve_path(char *command, char *path_env);
 void	handle_command(char *raw_command, char **envp);
-void	error_str(char *message, char **free_string_array, char *free_string);
+void	error_str(char *message, char* cmd_or_file, char **free_string_array, char *free_string);
 //
 #include <stdio.h>

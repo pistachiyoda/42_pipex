@@ -26,11 +26,11 @@ void	error(char *message, char **free_string_array, char *free_string)
 }
 
 // エラー発生時にエラー出力とfreeとexitをする関数
-void	error_str(char *message, char **free_string_array, char *free_string)
+void	error_str(char *message, char* cmd_or_file, char **free_string_array, char *free_string)
 {
 	ft_putstr_fd(message, 2);
 	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(free_string_array[0], 2);
+	ft_putstr_fd(cmd_or_file, 2);
 	if (free_string_array != NULL)
 		free_2d_array(free_string_array);
 	if (free_string != NULL)

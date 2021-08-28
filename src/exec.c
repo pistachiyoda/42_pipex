@@ -17,10 +17,10 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
         if (close(pipe_fds[0]) == -1)
 			error("close()", NULL, NULL);
 		if (check_readability(argv[1]) == -1)
-			error("check_readability()", NULL, NULL);
+			error_str("no such file or directory", argv[1], NULL, NULL);
 		file_fd = open_file(argv[1]);
 		if (file_fd == -1)
-			error("open_file()", NULL, NULL);
+			error_str("permission denied", argv[1], NULL, NULL);
 		// infileの内容を第三引数のコマンドに標準入力として渡すために、infileのfdを標準入力0に置き換えている
 		if (dup2(file_fd, 0) == -1)
 			error("dup2()", NULL, NULL);
@@ -49,7 +49,7 @@ int	last_exec(int pipe_fds[2], char **argv, char **envp)
 		if (close(pipe_fds[1]) == -1)
 			error("close()", NULL, NULL);
 		if (check_writability(argv[4]) == -1)
-			error("check_writability()", NULL, NULL);
+			error_str("permission denied", argv[4], NULL, NULL);
 		file_fd = open_or_create_file(argv[4]);
 		if (file_fd == -1)
 			error("open_or_create_file()", NULL, NULL);
