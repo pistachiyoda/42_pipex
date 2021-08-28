@@ -1,6 +1,6 @@
 #include "../pipex.h"
 // commandが実行可能化をチェックする
-int		is_executable(char *command)
+int	is_executable(char *command)
 {
 	if (access(command, X_OK) == 0)
 		return (1);
@@ -10,7 +10,7 @@ int		is_executable(char *command)
 // 環境変数envpの中からkey(PATH, SHELLなど)に対応する値を取得する
 char	*get_env(char *key, char **envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (envp[i] != NULL)
@@ -67,7 +67,7 @@ void	handle_command(char *raw_command, char **envp)
 		error("split_command()", NULL, NULL);
 	command_full_path = resolve_path(command[0], get_env("PATH", envp));
 	if (command_full_path == NULL)
-		error_str("command not found", command[0],command, NULL);
+		error_str("command not found", command[0], command, NULL);
 	execve(command_full_path, &command[0], envp);
 	error("execve()", command, command_full_path);
 }

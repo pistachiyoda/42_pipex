@@ -18,7 +18,7 @@ int	check_writability(char *file)
 }
 
 // ファイルを読み込み、書き込みができる状態で開く
-int		open_file(char *file)
+int	open_file(char *file)
 {
 	int	file_fd;
 
@@ -29,7 +29,7 @@ int		open_file(char *file)
 }
 
 // ファイルを読み込み、書き込みができる状態で開く。ファイルが存在しない場合は読み込み、書き込み権限を与えた状態でファイルを新規作成する。
-int		open_or_create_file(char *file)
+int	open_or_create_file(char *file)
 {
 	int	file_fd;
 
