@@ -34,6 +34,19 @@ void	error(char *message, char **free_string_array, char *free_string)
 	exit(1);
 }
 
+int	ft_strcmp(char *a, char *b)
+{
+	while (1)
+	{
+		if (*a == '\0' && *b == '\0')
+			return (1);
+		if (*a != *b)
+			return (0);
+		a++;
+		b++;
+	}
+}
+
 // エラー発生時にエラー出力(putstr)とfreeとexitをする関数
 void	error_str(char *message, char *cmd_or_file,
 					char **free_string_array, char *free_string)
@@ -46,5 +59,7 @@ void	error_str(char *message, char *cmd_or_file,
 		free_2d_array(free_string_array);
 	if (free_string != NULL)
 		free(free_string);
+	if (ft_strcmp(message, "command not found"))
+		exit(127);
 	exit(1);
 }
