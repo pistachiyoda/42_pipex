@@ -4,10 +4,10 @@ int	main(int argc, char **argv, char **envp)
 	int		pipe_fds[2];
 
 	arg_error(argc);
-	if (pipe(pipe_fds) < 0)
+	if (pipe(pipe_fds) == -1)
 	{
 		perror("pipe()");
-		return (-1);
+		exit(1);
 	}
 	exec(pipe_fds, argv, envp);
 }

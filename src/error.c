@@ -4,8 +4,8 @@ void	arg_error(int argc)
 {
 	if (argc != 5)
 	{
-		ft_putstr_fd("Number of argument is incorrect.", 1);
-		exit(0);
+		ft_putstr_fd("Number of argument is incorrect.", 2);
+		exit(1);
 	}
 }
 

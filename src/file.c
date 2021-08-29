@@ -3,7 +3,7 @@
 // fileが存在しているか、読み取り権限があるかを確認する
 int	check_readability(char *file)
 {
-	if (access(file, F_OK) < 0 && access(file, R_OK) < 0)
+	if (access(file, F_OK) == -1 && access(file, R_OK) == -1)
 		return (-1);
 	return (0);
 }
@@ -12,7 +12,7 @@ int	check_readability(char *file)
 int	check_writability(char *file)
 {
 	if (access(file, F_OK) == 0)
-		if (access(file, W_OK) < 0)
+		if (access(file, W_OK) == -1)
 			return (-1);
 	return (0);
 }
@@ -23,7 +23,7 @@ int	open_file(char *file)
 	int	file_fd;
 
 	file_fd = open(file, O_RDWR);
-	if (file_fd < 0)
+	if (file_fd == -1)
 		return (-1);
 	return (file_fd);
 }
@@ -35,5 +35,7 @@ int	open_or_create_file(char *file)
 
 	file_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	if (file_fd == -1)
+		return (-1);
 	return (file_fd);
 }

@@ -1,4 +1,5 @@
 #include "../pipex.h"
+// パイプ前半後半でコマンドを分けて実行する。
 void	exec(int pipe_fds[2], char **argv, char **envp)
 {
 	int		first_pid;
@@ -22,13 +23,14 @@ void	exec(int pipe_fds[2], char **argv, char **envp)
 	exit(WEXITSTATUS(status));
 }
 
+// 前半部の実行
 int	first_exec(int pipe_fds[2], char **argv, char **envp)
 {
 	pid_t	pid;
 	int		file_fd;
 
 	pid = fork();
-	if (pid < 0)
+	if (pid == -1)
 	{
 		perror("fork()");
 		return (-1);
@@ -51,13 +53,14 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
 	return (pid);
 }
 
+// 後半部の実行
 int	last_exec(int pipe_fds[2], char **argv, char **envp)
 {
 	pid_t	pid;
 	int		file_fd;
 
 	pid = fork();
-	if (pid < 0)
+	if (pid == -1)
 	{
 		perror("fork()");
 		return (-1);

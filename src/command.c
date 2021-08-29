@@ -57,6 +57,7 @@ char	*resolve_path(char *command, char *path_env)
 	return (NULL);
 }
 
+// コマンドを実行できる形にトリムして実行する
 void	handle_command(char *raw_command, char **envp)
 {
 	char	**command;
