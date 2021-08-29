@@ -41,6 +41,7 @@ void	error_str(char *message, char *cmd_or_file,
 	ft_putstr_fd(message, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(cmd_or_file, 2);
+	ft_putchar_fd('\n', 2);
 	if (free_string_array != NULL)
 		free_2d_array(free_string_array);
 	if (free_string != NULL)
