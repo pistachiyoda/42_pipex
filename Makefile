@@ -15,4 +15,5 @@ clean:
 	rm -f $(OBJ)
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C ./libft fclean
 re: fclean all
