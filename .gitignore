@@ -1,5 +1,8 @@
+in
+out
 infile
 outfile
 *.o
 *.a
 pipex
+leaks.txt
