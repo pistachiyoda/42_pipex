@@ -8,15 +8,19 @@ int	is_executable(char *command)
 }
 
 // 環境変数envpの中からkey(PATH, SHELLなど)に対応する値を取得する
-char	*get_env(char *key, char **envp)
+char	**get_env_str(char *key, char **envp)
 {
-	int	i;
+	int		i;
+	char	**value;
 
 	i = 0;
 	while (envp[i] != NULL)
 	{
 		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0)
-			return (ft_split(envp[i], '=')[1]);
+		{
+			value = ft_split(envp[i], '=');
+			return (value);
+		}
 		i++;
 	}
 	return (NULL);
@@ -62,11 +66,14 @@ void	handle_command(char *raw_command, char **envp)
 {
 	char	**command;
 	char	*command_full_path;
+	char	**path_env;
 
 	command = split_command(raw_command);
 	if (command == NULL)
 		error("split_command()", NULL, NULL);
-	command_full_path = resolve_path(command[0], get_env("PATH", envp));
+	path_env = get_env_str("PATH", envp);
+	command_full_path = resolve_path(command[0], path_env[1]);
+	free_2d_array(path_env);
 	if (command_full_path == NULL)
 		error_str("command not found", command[0], command, NULL);
 	execve(command_full_path, &command[0], envp);

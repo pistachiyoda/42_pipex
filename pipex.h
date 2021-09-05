@@ -19,7 +19,7 @@ int		check_writability(char *file);
 int		open_file(char *file);
 int		open_or_create_file(char *file);
 int		is_executable(char *command);
-char	*get_env(char *key, char **envp);
+char	**get_env_str(char *key, char **envp);
 char	**split_command(char *unformatted_command);
 char	*resolve_path(char *command, char *path_env);
 void	handle_command(char *raw_command, char **envp);
