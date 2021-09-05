@@ -48,7 +48,7 @@ int	ft_strcmp(char *a, char *b)
 }
 
 // エラー発生時にエラー出力(putstr)とfreeとexitをする関数
-void	error_str(char *message, char *cmd_or_file,
+void	exit_with_strerr(char *message, char *cmd_or_file,
 					char **free_string_array, char *free_string)
 {
 	ft_putstr_fd(message, 2);

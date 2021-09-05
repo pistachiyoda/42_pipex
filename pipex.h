@@ -23,7 +23,7 @@ char	**get_env_str(char *key, char **envp);
 char	**split_command(char *unformatted_command);
 char	*resolve_path(char *command, char *path_env);
 void	handle_command(char *raw_command, char **envp);
-void	error_str(char *message, char *cmd_or_file,
+void	exit_with_strerr(char *message, char *cmd_or_file,
 			char **free_string_array, char *free_string);
 void	arg_error(int argc);
 void	exec(int pipe_fds[2], char **argv, char **envp);

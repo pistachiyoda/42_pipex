@@ -40,10 +40,10 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
 		if (close(pipe_fds[0]) == -1)
 			exit_with_perr("close()", NULL, NULL);
 		if (check_readability(argv[1]) == -1)
-			error_str("no such file or directory", argv[1], NULL, NULL);
+			exit_with_strerr("no such file or directory", argv[1], NULL, NULL);
 		file_fd = open_file(argv[1]);
 		if (file_fd == -1)
-			error_str("permission denied", argv[1], NULL, NULL);
+			exit_with_strerr("permission denied", argv[1], NULL, NULL);
 		if (dup2(file_fd, 0) == -1)
 			exit_with_perr("dup2()", NULL, NULL);
 		if (dup2(pipe_fds[1], 1) == -1)
@@ -70,7 +70,7 @@ int	last_exec(int pipe_fds[2], char **argv, char **envp)
 		if (close(pipe_fds[1]) == -1)
 			exit_with_perr("close()", NULL, NULL);
 		if (check_writability(argv[4]) == -1)
-			error_str("permission denied", argv[4], NULL, NULL);
+			exit_with_strerr("permission denied", argv[4], NULL, NULL);
 		file_fd = open_or_create_file(argv[4]);
 		if (file_fd == -1)
 			exit_with_perr("open_or_create_file()", NULL, NULL);
