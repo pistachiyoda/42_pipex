@@ -24,7 +24,7 @@ void	free_2d_array(char **two_d_array)
 }
 
 // エラー発生時にエラー出力(perror)とfreeとexitをする関数
-void	error(char *message, char **free_string_array, char *free_string)
+void	exit_with_perr(char *message, char **free_string_array, char *free_string)
 {
 	perror(message);
 	if (free_string_array != NULL)

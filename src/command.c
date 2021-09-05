@@ -70,12 +70,12 @@ void	handle_command(char *raw_command, char **envp)
 
 	command = split_command(raw_command);
 	if (command == NULL)
-		error("split_command()", NULL, NULL);
+		exit_with_perr("split_command()", NULL, NULL);
 	path_env = get_env_str("PATH", envp);
 	command_full_path = resolve_path(command[0], path_env[1]);
 	free_2d_array(path_env);
 	if (command_full_path == NULL)
 		error_str("command not found", command[0], command, NULL);
 	execve(command_full_path, &command[0], envp);
-	error("execve()", command, command_full_path);
+	exit_with_perr("execve()", command, command_full_path);
 }

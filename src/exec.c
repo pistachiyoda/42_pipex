@@ -8,18 +8,18 @@ void	exec(int pipe_fds[2], char **argv, char **envp)
 
 	first_pid = first_exec(pipe_fds, argv, envp);
 	if (first_pid == -1)
-		error("fork()", NULL, NULL);
+		exit_with_perr("fork()", NULL, NULL);
 	last_pid = last_exec(pipe_fds, argv, envp);
 	if (last_pid == -1)
-		error("fork()", NULL, NULL);
+		exit_with_perr("fork()", NULL, NULL);
 	if (close(pipe_fds[0]) == -1)
-		error("close()", NULL, NULL);
+		exit_with_perr("close()", NULL, NULL);
 	if (close(pipe_fds[1]) == -1)
-		error("close()", NULL, NULL);
+		exit_with_perr("close()", NULL, NULL);
 	if (waitpid(first_pid, &status, 0) < 0)
-		error("waitpid()", NULL, NULL);
+		exit_with_perr("waitpid()", NULL, NULL);
 	if (waitpid(last_pid, &status, 0) < 0)
-		error("waitpid()", NULL, NULL);
+		exit_with_perr("waitpid()", NULL, NULL);
 	exit(WEXITSTATUS(status));
 }
 
@@ -38,16 +38,16 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
 	if (pid == 0)
 	{
 		if (close(pipe_fds[0]) == -1)
-			error("close()", NULL, NULL);
+			exit_with_perr("close()", NULL, NULL);
 		if (check_readability(argv[1]) == -1)
 			error_str("no such file or directory", argv[1], NULL, NULL);
 		file_fd = open_file(argv[1]);
 		if (file_fd == -1)
 			error_str("permission denied", argv[1], NULL, NULL);
 		if (dup2(file_fd, 0) == -1)
-			error("dup2()", NULL, NULL);
+			exit_with_perr("dup2()", NULL, NULL);
 		if (dup2(pipe_fds[1], 1) == -1)
-			error("dup2()", NULL, NULL);
+			exit_with_perr("dup2()", NULL, NULL);
 		handle_command(argv[2], envp);
 	}
 	return (pid);
@@ -68,16 +68,16 @@ int	last_exec(int pipe_fds[2], char **argv, char **envp)
 	if (pid == 0)
 	{
 		if (close(pipe_fds[1]) == -1)
-			error("close()", NULL, NULL);
+			exit_with_perr("close()", NULL, NULL);
 		if (check_writability(argv[4]) == -1)
 			error_str("permission denied", argv[4], NULL, NULL);
 		file_fd = open_or_create_file(argv[4]);
 		if (file_fd == -1)
-			error("open_or_create_file()", NULL, NULL);
+			exit_with_perr("open_or_create_file()", NULL, NULL);
 		if (dup2(pipe_fds[0], 0) == -1)
-			error("dup2()", NULL, NULL);
+			exit_with_perr("dup2()", NULL, NULL);
 		if (dup2(file_fd, 1) == -1)
-			error("dup2()", NULL, NULL);
+			exit_with_perr("dup2()", NULL, NULL);
 		handle_command(argv[3], envp);
 	}
 	return (pid);

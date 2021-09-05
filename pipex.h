@@ -13,7 +13,7 @@
 int		first_exec(int pipe_fds[2], char **argv, char **envp);
 int		last_exec(int pipe_fds[2], char **argv, char **envp);
 void	free_2d_array(char **two_d_array);
-void	error(char *message, char **free_string_array, char *free_string);
+void	exit_with_perr(char *message, char **free_string_array, char *free_string);
 int		check_readability(char *file);
 int		check_writability(char *file);
 int		open_file(char *file);
