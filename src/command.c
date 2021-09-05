@@ -1,10 +1,10 @@
 #include "../pipex.h"
 // commandが実行可能化をチェックする
-int	is_executable(char *command)
+bool	is_executable(char *command)
 {
 	if (access(command, X_OK) == 0)
-		return (1);
-	return (0);
+		return (true);
+	return (false);
 }
 
 // 環境変数envpの中からkey(PATH, SHELLなど)に対応する値を取得する

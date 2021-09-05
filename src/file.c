@@ -1,20 +1,20 @@
 #include "../pipex.h"
 
 // fileが存在しているか、読み取り権限があるかを確認する
-int	check_readability(char *file)
+bool	is_readable(char *file)
 {
 	if (access(file, F_OK) == -1 && access(file, R_OK) == -1)
-		return (-1);
-	return (0);
+		return (false);
+	return (true);
 }
 
 // fileが存在する場合、書き込み権限があるかを確認する(fileが存在しない場合はopen_or_create_fileで新規作成する)
-int	check_writability(char *file)
+bool	is_writable(char *file)
 {
 	if (access(file, F_OK) == 0)
 		if (access(file, W_OK) == -1)
-			return (-1);
-	return (0);
+			return (false);
+	return (true);
 }
 
 // ファイルを読み込み、書き込みができる状態で開く
