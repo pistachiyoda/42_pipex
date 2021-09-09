@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/07 17:43:32 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/09 14:59:07 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
 	{
 		if (close(pipe_fds[0]) == -1)
 			exit_with_perr("close()", NULL, NULL);
-		if (!(is_readable(argv[1])))
-			exit_with_strerr("no such file or directory", argv[1], NULL, NULL);
+		is_readable(argv[1]);
 		file_fd = open_file(argv[1]);
 		if (file_fd == -1)
-			exit_with_strerr("permission denied", argv[1], NULL, NULL);
+			exit_with_perr("open()", NULL, NULL);
 		if (dup2(file_fd, 0) == -1)
 			exit_with_perr("dup2()", NULL, NULL);
 		if (dup2(pipe_fds[1], 1) == -1)
