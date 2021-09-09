@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:19 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/07 17:43:27 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/09 15:58:52 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,16 @@ void	handle_command(char *raw_command, char **envp)
 	command = split_command(raw_command);
 	if (command == NULL)
 		exit_with_perr("split_command()", NULL, NULL);
+	if (is_executable(command[0]))
+	{
+		execve(command[0], command, envp);
+		exit_with_perr("execve()", command, NULL);
+	}
 	path_env = get_env_str("PATH", envp);
 	command_full_path = resolve_path(command[0], path_env[1]);
 	free_2d_array(path_env);
 	if (command_full_path == NULL)
 		exit_with_strerr("command not found", command[0], command, NULL);
-	execve(command_full_path, &command[0], envp);
+	execve(command_full_path, command, envp);
 	exit_with_perr("execve()", command, command_full_path);
 }
