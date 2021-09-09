@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:50:31 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/09 15:02:39 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/09 23:46:42 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <stdbool.h>
-# include "./libft/libft.h"
+# include "../libft/libft.h"
 int		first_exec(int pipe_fds[2], char **argv, char **envp);
 int		last_exec(int pipe_fds[2], char **argv, char **envp);
 void	free_2d_array(char **two_d_array);

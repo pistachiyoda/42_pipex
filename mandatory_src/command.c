@@ -6,11 +6,11 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:19 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/09 15:58:52 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/09 23:45:43 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "./pipex.h"
 // commandが実行可能化をチェックする
 bool	is_executable(char *command)
 {

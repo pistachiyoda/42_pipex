@@ -6,11 +6,11 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/09 14:59:07 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/09 23:45:55 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "./pipex.h"
 // パイプ前半後半でコマンドを分けて実行する。
 void	exec(int pipe_fds[2], char **argv, char **envp)
 {

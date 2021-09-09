@@ -6,11 +6,11 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:46 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/07 17:43:47 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/09 23:46:04 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "./pipex.h"
 
 int	main(int argc, char **argv, char **envp)
 {

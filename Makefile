@@ -1,8 +1,10 @@
 NAME = pipex
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
-CFILES = ./src/main.c ./src/exec.c ./src/error.c ./src/file.c ./src/command.c
+CFILES = ./mandatory_src/main.c ./mandatory_src/exec.c ./mandatory_src/error.c ./mandatory_src/file.c ./mandatory_src/command.c
 OBJ = $(CFILES:.c=.o)
+BONUS_FILES = ./bonus_src/main_bonus.c ./bonus_src/exec_bonus.c ./bonus_src/error_bonus.c ./bonus_src/file_bonus.c ./bonus_src/command_bonus.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
+BONUS_OBJ = $(BONUS_FILES:.c=.o)
 LIBS = -Llibft -lft
 LIBFT = ./libft/libft.a
 
@@ -17,3 +19,10 @@ fclean: clean
 	rm -f $(NAME)
 	$(MAKE) -C ./libft fclean
 re: fclean all
+bonus: $(BONUS_OBJ) $(LIBFT)
+	$(CC) $(BONUS_OBJ) -o $(NAME) $(LIBS) $(CFLAGS)
+clean_bonus:
+	rm -f $(BONUS_OBJ)
+fclean_bonus: clean_bonus
+	rm -f $(NAME)
+	$(MAKE) -C ./libft fclean
