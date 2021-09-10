@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/09 23:53:00 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/10 16:34:22 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	exec(int pipe_fds[2], char **argv, char **envp)
 		exit_with_perr("close()", NULL, NULL);
 	if (close(pipe_fds[1]) == -1)
 		exit_with_perr("close()", NULL, NULL);
-	if (waitpid(first_pid, &status, 0) < 0)
-		exit_with_perr("waitpid()", NULL, NULL);
 	if (waitpid(last_pid, &status, 0) < 0)
 		exit_with_perr("waitpid()", NULL, NULL);
 	exit(WEXITSTATUS(status));
@@ -40,6 +38,7 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
 {
 	pid_t	pid;
 	int		file_fd;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -62,6 +61,8 @@ int	first_exec(int pipe_fds[2], char **argv, char **envp)
 		handle_command(argv[2], envp);
 	}
 	return (pid);
+	if (waitpid(pid, &status, 0) < 0)
+		exit_with_perr("waitpid()", NULL, NULL);
 }
 
 // 後半部の実行
