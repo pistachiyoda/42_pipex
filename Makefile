@@ -26,3 +26,4 @@ clean_bonus:
 fclean_bonus: clean_bonus
 	rm -f $(NAME)
 	$(MAKE) -C ./libft fclean
+re_bonus: fclean_bonus bonus
