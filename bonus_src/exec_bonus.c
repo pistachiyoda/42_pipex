@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 23:20:50 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/12 23:50:42 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,25 @@ void	wait_pids(int *pids, int commands)
 void	exec(int pipe_a[2], char **argv, char **envp, int argc)
 {
 	int		pids[10000];
-	int		commands;
 	int		i;
 	int		pipe_b[2];
+	int		cmd_cnt;
 
-	commands = argc - 3;
 	if (ft_strcmp(argv[1], "here_doc"))
 	{
 		pids[0] = exec_first_command_with_heredoc(pipe_a, argv[3], envp, argv[2]);
-		i = 2;
+		cmd_cnt = 2;
 	}
 	else
 	{
 		pids[0] = exec_first_command_with_file(pipe_a, argv[2], envp, argv[1]);
-		i = 1;
+		cmd_cnt = argc - 3;
 	}
-	while (i < (commands - 1))
+	i = 1;
+	while (i < cmd_cnt)
 	{
 		pipe(pipe_b);
-		pids[i] = exec_command(pipe_a, pipe_b, argv[i + 2], envp);
+		pids[i] = exec_command(pipe_a, pipe_b, argv[argc - (cmd_cnt - i) - 1], envp);
 		if (pids[i] == -1)
 			exit_with_perr("fork()", NULL, NULL);
 		close(pipe_a[0]);
@@ -91,12 +91,12 @@ void	exec(int pipe_a[2], char **argv, char **envp, int argc)
 		i++;
 	}
 	if (ft_strcmp(argv[1], "here_doc"))
-		pids[i] = exec_last_command(pipe_a, argv[i + 2], envp, argv[commands + 2]);
+		pids[i] = exec_last_command(pipe_a, argv[argc - 2], envp, argv[argc - 1]);
 	else
-		pids[i] = exec_last_command(pipe_a, argv[i + 2], envp, argv[commands + 2]);
+		pids[i] = exec_last_command(pipe_a, argv[argc - 2], envp, argv[argc - 1]);
 	if (pids[i] == -1)
 		exit_with_perr("fork()", NULL, NULL);
 	close(pipe_a[0]);
 	close(pipe_a[1]);
-	wait_pids(pids, commands);
+	wait_pids(pids, cmd_cnt);
 }
