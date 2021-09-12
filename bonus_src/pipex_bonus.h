@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:50:31 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/09 23:55:29 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/12 14:47:17 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include "../libft/libft.h"
+# include "./gnl/get_next_line.h"
 int		first_exec(int pipe_fds[2], char **argv, char **envp);
 int		last_exec(int pipe_fds[2], char **argv, char **envp);
 void	free_2d_array(char **two_d_array);
@@ -41,4 +42,6 @@ void	exit_with_strerr(char *message, char *cmd_or_file,
 			char **free_string_array, char *free_string);
 void	arg_error(int argc);
 void	exec(int pipe_fds[2], char **argv, char **envp);
+int		ft_strcmp(char *a, char *b);
+int		exec_first_command_with_heredoc(int pipe_a[2], char *raw_command, char **envp, char *limiter);
 #endif

@@ -6,15 +6,15 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:24 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/09 23:53:23 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/12 11:43:23 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./pipex_bonus.h"
-// 引数が４つ以外の場合エラーにする
+// 引数が5つ以下の場合エラーにする
 void	arg_error(int argc)
 {
-	if (argc != 5)
+	if (argc < 5)
 	{
 		ft_putstr_fd("Number of argument is incorrect.", 2);
 		exit(1);

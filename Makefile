@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 CFILES = ./mandatory_src/main.c ./mandatory_src/exec.c ./mandatory_src/error.c ./mandatory_src/file.c ./mandatory_src/command.c
 OBJ = $(CFILES:.c=.o)
-BONUS_FILES = ./bonus_src/main_bonus.c ./bonus_src/exec_bonus.c ./bonus_src/error_bonus.c ./bonus_src/file_bonus.c ./bonus_src/command_bonus.c ./bonus_src/gnl/get_next_line.c ./bonus_src/gnl/get_next_line_utils.c
+BONUS_FILES = ./bonus_src/main_bonus.c ./bonus_src/exec_bonus.c ./bonus_src/error_bonus.c ./bonus_src/file_bonus.c ./bonus_src/command_bonus.c ./bonus_src/heredoc_bonus.c ./bonus_src/gnl/get_next_line.c ./bonus_src/gnl/get_next_line_utils.c
 BONUS_OBJ = $(BONUS_FILES:.c=.o)
 LIBS = -Llibft -lft
 LIBFT = ./libft/libft.a
