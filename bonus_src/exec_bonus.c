@@ -6,23 +6,11 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 20:34:10 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/12 22:44:45 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./pipex_bonus.h"
-
-int		cnt_commands(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i])
-	{
-		i++;
-	}
-	return (i - 3);
-}
 
 int		exec_command(int pipe_a[2], int pipe_b[2], char *raw_command, char **envp)
 {
@@ -95,14 +83,14 @@ void	wait_pids(int *pids, int commands)
 	exit(WEXITSTATUS(status));
 }
 
-void	exec(int pipe_a[2], char **argv, char **envp)
+void	exec(int pipe_a[2], char **argv, char **envp, int argc)
 {
 	int		pids[10000];
 	int		commands;
 	int		i;
 	int		pipe_b[2];
 
-	commands = cnt_commands(argv);
+	commands = argc - 3;
 	if (ft_strcmp(argv[1], "here_doc"))
 	{
 		pids[0] = exec_first_command_with_heredoc(pipe_a, argv[3], envp, argv[2]);

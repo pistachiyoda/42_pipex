@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:46 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 20:42:17 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/12 22:40:56 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ int	main(int argc, char **argv, char **envp)
 		perror("pipe()");
 		exit(1);
 	}
-	exec(pipe_fds, argv, envp);
+	exec(pipe_fds, argv, envp, argc);
 }
