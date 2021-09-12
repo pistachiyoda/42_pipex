@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:50:31 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 16:39:25 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/12 20:43:00 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*resolve_path(char *command, char *path_env);
 void	handle_command(char *raw_command, char **envp);
 void	exit_with_strerr(char *message, char *cmd_or_file,
 			char **free_string_array, char *free_string);
-void	arg_error(int argc);
+void	arg_error(int argc, char **argv);
 void	exec(int pipe_fds[2], char **argv, char **envp);
 int		ft_strcmp(char *a, char *b);
 int		exec_first_command_with_heredoc(int pipe_a[2], char *raw_command, char **envp, char *limiter);
