@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 23:04:38 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/12 23:19:53 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ int		exec_first_command_with_file(int pipe_a[2], char *raw_command, char **envp,
 
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("fork()");
-		return (-1);
-	}
+		exit_with_perr("fork()", NULL, NULL);
 	if (pid == 0)
 	{
 		stdin_from_file(pipe_a, filepath);

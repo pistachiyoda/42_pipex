@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 23:04:35 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/12 23:20:50 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	wait_pids(int *pids, int commands)
 	exit(WEXITSTATUS(status));
 }
 
+
+
 void	exec(int pipe_a[2], char **argv, char **envp, int argc)
 {
 	int		pids[10000];
@@ -76,8 +78,6 @@ void	exec(int pipe_a[2], char **argv, char **envp, int argc)
 		pids[0] = exec_first_command_with_file(pipe_a, argv[2], envp, argv[1]);
 		i = 1;
 	}
-	if (pids[0] == -1)
-		exit_with_perr("fork()", NULL, NULL);
 	while (i < (commands - 1))
 	{
 		pipe(pipe_b);
