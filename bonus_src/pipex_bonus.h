@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:50:31 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 22:41:16 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/12 23:04:52 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,5 @@ int		ft_strcmp(char *a, char *b);
 int		exec_first_command_with_heredoc(int pipe_a[2], char *raw_command, char **envp, char *limiter);
 void	stdin_from_file(int pipe_a[2], char *filepath);
 int		exec_first_command_with_file(int pipe_a[2], char *raw_command, char **envp, char *filepath);
+int		exec_command(int pipe_a[2], int pipe_b[2], char *raw_command, char **envp);
 #endif
