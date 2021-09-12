@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/09 23:53:09 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/12 16:30:18 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int	open_file(char *file)
 	return (file_fd);
 }
 
-// ファイルを読み込み、書き込みができる状態で開く。ファイルが存在しない場合は読み込み、書き込み権限を与えた状態でファイルを新規作成する。
-int	open_or_create_file(char *file)
+// ファイルを読み込み、書き込みができる、追記できる状態で開く。ファイルが存在しない場合は読み込み、書き込み権限を与えた状態でファイルを新規作成する。
+int	open_or_create_appendfile(char *file)
 {
 	int	file_fd;
 
-	file_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC,
+	file_fd = open(file, O_APPEND | O_RDWR | O_CREAT,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (file_fd == -1)
 		return (-1);
