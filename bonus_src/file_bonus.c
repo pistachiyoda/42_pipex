@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 16:30:18 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 18:22:02 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ int	open_or_create_appendfile(char *file)
 	file_fd = open(file, O_APPEND | O_RDWR | O_CREAT,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (file_fd == -1)
-		return (-1);
+		exit_with_perr("open_or_create_appendfile()", NULL, NULL);
 	return (file_fd);
 }

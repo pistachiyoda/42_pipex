@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 18:09:45 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 18:18:43 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ int	exec_command(
 
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("fork()");
-		return (-1);
-	}
+		exit_with_perr("fork()", NULL, NULL);
 	if (pid == 0)
 	{
 		handle_close(pipe_a[1]);
