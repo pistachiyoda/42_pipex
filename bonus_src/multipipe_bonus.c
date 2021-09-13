@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 00:06:30 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 14:39:55 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	exec_first_command_with_file(
 }
 
 int	exec_command(
-	int pipe_a[2], int pipe_b[2], char *raw_command, char **envp)
+	int pipe_a[2], int pipe_b[2], char **envp, char *raw_command)
 {
 	pid_t	pid;
 
