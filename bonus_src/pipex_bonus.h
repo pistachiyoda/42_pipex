@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:50:31 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 17:19:49 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 18:34:14 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int		last_exec(int pipe_fds[2], char **argv, char **envp);
 void	free_2d_array(char **two_d_array);
 void	exit_with_perr(
 			char *message, char **free_string_array, char *free_string);
-void	is_readable(char *file);
-bool	is_writable(char *file);
+void	check_readability(char *file);
+void	check_writability(char *file);
 int		open_file(char *file);
 int		open_or_create_appendfile(char *file);
 bool	is_executable(char *command);

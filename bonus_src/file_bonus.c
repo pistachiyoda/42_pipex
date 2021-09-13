@@ -6,14 +6,14 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 18:22:02 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 18:36:25 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./pipex_bonus.h"
 
 // fileが存在しているか、読み取り権限があるかを確認する
-void	is_readable(char *file)
+void	check_readability(char *file)
 {
 	if (access(file, F_OK) == -1)
 		exit_with_strerr("no such file or directory", file, NULL, NULL);
@@ -22,12 +22,11 @@ void	is_readable(char *file)
 }
 
 // fileが存在する場合、書き込み権限があるかを確認する(fileが存在しない場合はopen_or_create_fileで新規作成する)
-bool	is_writable(char *file)
+void	check_writability(char *file)
 {
 	if (access(file, F_OK) == 0)
 		if (access(file, W_OK) == -1)
-			return (false);
-	return (true);
+			exit_with_strerr("permission denied", file, NULL, NULL);
 }
 
 // ファイルを読み込み、書き込みができる状態で開く

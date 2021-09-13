@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 18:18:43 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 18:31:29 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ void	stdin_from_file(int pipe_a[2], char *filepath)
 {
 	int		file_fd;
 
-	is_readable(filepath);
+	check_readability(filepath);
 	file_fd = open_file(filepath);
 	if (file_fd == -1)
 		exit_with_perr("open()", NULL, NULL);

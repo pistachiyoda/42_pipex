@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 18:21:33 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 18:33:33 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ int	exec_last_command(
 	if (pid == 0)
 	{
 		handle_close(pipe_a[1]);
-		if (!(is_writable(filepath)))
-			exit_with_strerr("permission denied", filepath, NULL, NULL);
+		check_writability(filepath);
 		file_fd = open_or_create_appendfile(filepath);
 		handle_close(0);
 		handle_dup2(pipe_a[0], 0);
