@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 17:05:04 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 17:27:47 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,9 @@ int	exec_last_command(
 		if (file_fd == -1)
 			exit_with_perr("open_or_create_appendfile()", NULL, NULL);
 		handle_close(0);
-		if (dup2(pipe_a[0], 0) == -1)
-			exit_with_perr("dup2()", NULL, NULL);
+		handle_dup2(pipe_a[0], 0);
 		handle_close(1);
-		if (dup2(file_fd, 1) == -1)
-			exit_with_perr("dup2()", NULL, NULL);
+		handle_dup2(file_fd, 1);
 		handle_close(pipe_a[0]);
 		handle_close(file_fd);
 		handle_command(raw_command, envp);

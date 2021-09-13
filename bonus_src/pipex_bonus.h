@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:50:31 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 17:05:04 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 17:19:49 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,5 @@ int		exec_first_command_with_file(
 int		exec_command(
 			int pipe_a[2], int pipe_b[2], char **envp, char *raw_command);
 void	handle_close(int fd);
+void	handle_dup2(int old, int new);
 #endif
