@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 16:52:12 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 18:12:16 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 19:12:36 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,14 @@ void	handle_dup2(int old, int new)
 {
 	if (dup2(old, new) == -1)
 		exit_with_perr("dup2", NULL, NULL);
+}
+
+int	handle_fork(void)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+		exit_with_perr("fork()", NULL, NULL);
+	return (pid);
 }

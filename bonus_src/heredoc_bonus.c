@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 18:17:32 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 19:07:04 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int	stdin_from_heredoc(int doc_pipe[2], char *limiter)
 	char	*line;
 	int		ret;
 
-	pid = fork();
-	if (pid == -1)
-		exit_with_perr("fork()", NULL, NULL);
+	pid = handle_fork();
 	if (pid == 0)
 	{
 		handle_close(doc_pipe[0]);
@@ -51,9 +49,7 @@ int	exec_first_command_with_heredoc(
 
 	if (pipe(doc_pipe) == -1)
 		exit_with_perr("pipe()", NULL, NULL);
-	pid = fork();
-	if (pid == -1)
-		exit_with_perr("fork()", NULL, NULL);
+	pid = handle_fork();
 	if (pid == 0)
 	{
 		handle_close(doc_pipe[1]);
