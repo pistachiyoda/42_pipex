@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 14:40:52 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 17:05:04 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,20 @@ int	exec_last_command(
 		exit_with_perr("fork()", NULL, NULL);
 	if (pid == 0)
 	{
-		close(pipe_a[1]);
+		handle_close(pipe_a[1]);
 		if (!(is_writable(filepath)))
 			exit_with_strerr("permission denied", filepath, NULL, NULL);
 		file_fd = open_or_create_appendfile(filepath);
 		if (file_fd == -1)
 			exit_with_perr("open_or_create_appendfile()", NULL, NULL);
-		close(0);
+		handle_close(0);
 		if (dup2(pipe_a[0], 0) == -1)
 			exit_with_perr("dup2()", NULL, NULL);
-		close(1);
+		handle_close(1);
 		if (dup2(file_fd, 1) == -1)
 			exit_with_perr("dup2()", NULL, NULL);
-		close(pipe_a[0]);
-		close(file_fd);
+		handle_close(pipe_a[0]);
+		handle_close(file_fd);
 		handle_command(raw_command, envp);
 	}
 	return (pid);
@@ -99,20 +99,19 @@ void	exec(int pipe_a[2], t_cmdline_args *cmdline_args)
 	i = 1;
 	while (i < cmd_cnt)
 	{
-		pipe(pipe_b);
+		if (pipe(pipe_b) == -1)
+			exit_with_perr("pipe()", NULL, NULL);
 		pids[i] = exec_command(
 				pipe_a, pipe_b, cmdline_args->envp,
 				cmdline_args->argv[cmdline_args->argc - (cmd_cnt - i) - 1]);
-		if (pids[i] == -1)
-			exit_with_perr("fork()", NULL, NULL);
-		close(pipe_a[0]);
-		close(pipe_a[1]);
+		handle_close(pipe_a[0]);
+		handle_close(pipe_a[1]);
 		pipe_a[0] = pipe_b[0];
 		pipe_a[1] = pipe_b[1];
 		i++;
 	}
 	pids[i] = exec_last(pipe_a, cmdline_args);
-	close(pipe_a[0]);
-	close(pipe_a[1]);
+	handle_close(pipe_a[0]);
+	handle_close(pipe_a[1]);
 	wait_pids(pids, cmd_cnt);
 }

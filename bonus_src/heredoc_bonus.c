@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 00:09:25 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 17:09:12 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	stdin_from_heredoc(int doc_pipe[2], char *limiter)
 	pid = fork();
 	if (pid == 0)
 	{
-		close(doc_pipe[0]);
+		handle_close(doc_pipe[0]);
 		while (true)
 		{
 			ret = get_next_line(0, &line);
@@ -34,7 +34,7 @@ int	stdin_from_heredoc(int doc_pipe[2], char *limiter)
 			write(doc_pipe[1], "\n", 1);
 			free(line);
 		}
-		close(doc_pipe[1]);
+		handle_close(doc_pipe[1]);
 		exit(0);
 	}
 	return (pid);
@@ -53,19 +53,19 @@ int	exec_first_command_with_heredoc(
 		exit_with_perr("fork()", NULL, NULL);
 	if (pid == 0)
 	{
-		close(doc_pipe[1]);
+		handle_close(doc_pipe[1]);
 		if (dup2(doc_pipe[0], 0) == -1)
 			exit_with_perr("dup2()", NULL, NULL);
-		close(doc_pipe[0]);
+		handle_close(doc_pipe[0]);
 		if (dup2(pipe_a[1], 1) == -1)
 			exit_with_perr("dup2()", NULL, NULL);
-		close(pipe_a[1]);
-		close(pipe_a[0]);
+		handle_close(pipe_a[1]);
+		handle_close(pipe_a[0]);
 		handle_command(raw_command, envp);
 	}
 	heredoc_pid = stdin_from_heredoc(doc_pipe, limiter);
-	close(doc_pipe[0]);
-	close(doc_pipe[1]);
+	handle_close(doc_pipe[0]);
+	handle_close(doc_pipe[1]);
 	waitpid(heredoc_pid, NULL, 0);
 	return (pid);
 }
