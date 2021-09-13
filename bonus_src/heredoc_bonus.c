@@ -6,12 +6,13 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 19:07:04 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 22:20:56 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./pipex_bonus.h"
 
+// gnlで入力内容を取得
 int	stdin_from_heredoc(int doc_pipe[2], char *limiter)
 {
 	int		pid;
@@ -40,6 +41,7 @@ int	stdin_from_heredoc(int doc_pipe[2], char *limiter)
 	return (pid);
 }
 
+// 標準入力をcmd1に渡す部分の処理
 int	exec_first_command_with_heredoc(
 	int pipe_a[2], char *raw_command, char **envp, char *limiter)
 {
@@ -55,9 +57,9 @@ int	exec_first_command_with_heredoc(
 		handle_close(doc_pipe[1]);
 		handle_dup2(doc_pipe[0], 0);
 		handle_close(doc_pipe[0]);
+		handle_close(pipe_a[0]);
 		handle_dup2(pipe_a[1], 1);
 		handle_close(pipe_a[1]);
-		handle_close(pipe_a[0]);
 		handle_command(raw_command, envp);
 	}
 	heredoc_pid = stdin_from_heredoc(doc_pipe, limiter);

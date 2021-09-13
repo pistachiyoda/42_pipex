@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 21:55:16 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/14 00:31:01 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	wait_pids(int *pids, int commands)
 	exit(WEXITSTATUS(status));
 }
 
+// 最初の入力部分の処理。ヒアドキュメントなら標準入力をcmd1に渡す部分、マルチパイプならinfileをcmd1に渡す部分を処理。
 int	exec_first(int pipe_a[2], t_cmdline_args *cmdline_args, int pids[10000])
 {
 	if (ft_strcmp(cmdline_args->argv[1], "here_doc"))
@@ -44,7 +45,8 @@ int	exec_first(int pipe_a[2], t_cmdline_args *cmdline_args, int pids[10000])
 	}
 }
 
-int	exec_last_command(
+// 出力先をファイルにするためにfdを操作し、最後のコマンドを実行
+int	exec_last(
 	int pipe_a[2], char *raw_command,
 	t_cmdline_args *cmdline_args, char *filepath)
 {
@@ -62,9 +64,7 @@ int	exec_last_command(
 		else
 			file_fd = open_or_create_file(
 					filepath, O_TRUNC | O_WRONLY | O_CREAT);
-		handle_close(0);
 		handle_dup2(pipe_a[0], 0);
-		handle_close(1);
 		handle_dup2(file_fd, 1);
 		handle_close(pipe_a[0]);
 		handle_close(file_fd);
@@ -73,14 +73,7 @@ int	exec_last_command(
 	return (pid);
 }
 
-int	exec_last(int pipe_a[2], t_cmdline_args *cmdline_args)
-{
-	return (exec_last_command(
-			pipe_a, cmdline_args->argv[cmdline_args->argc - 2],
-			cmdline_args,
-			cmdline_args->argv[cmdline_args->argc - 1]));
-}
-
+// メイン処理
 void	exec(int pipe_a[2], t_cmdline_args *cmdline_args)
 {
 	int		pids[10000];
@@ -103,7 +96,8 @@ void	exec(int pipe_a[2], t_cmdline_args *cmdline_args)
 		pipe_a[1] = pipe_b[1];
 		i++;
 	}
-	pids[i] = exec_last(pipe_a, cmdline_args);
+	pids[i] = exec_last(pipe_a, cmdline_args->argv[cmdline_args->argc - 2],
+			cmdline_args, cmdline_args->argv[cmdline_args->argc - 1]);
 	handle_close(pipe_a[0]);
 	handle_close(pipe_a[1]);
 	wait_pids(pids, cmd_cnt);
