@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:24 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 20:44:48 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 00:08:46 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	arg_error(int argc, char **argv)
 		ft_putstr_fd("Number of argument is incorrect.", 2);
 		exit(1);
 	}
-	if (ft_strcmp(argv[1], "here_doc") && argc !=6)
+	if (ft_strcmp(argv[1], "here_doc") && argc != 6)
 	{
 		ft_putstr_fd("Number of argument is incorrect.", 2);
 		exit(1);

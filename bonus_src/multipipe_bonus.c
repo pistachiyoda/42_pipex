@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 23:19:53 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 00:06:30 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	stdin_from_file(int pipe_a[2], char *filepath)
 	close(file_fd);
 }
 
-int		exec_first_command_with_file(int pipe_a[2], char *raw_command, char **envp, char *filepath)
+int	exec_first_command_with_file(
+	int pipe_a[2], char *raw_command, char **envp, char *filepath)
 {
 	int		pid;
 
@@ -43,7 +44,8 @@ int		exec_first_command_with_file(int pipe_a[2], char *raw_command, char **envp,
 	return (pid);
 }
 
-int		exec_command(int pipe_a[2], int pipe_b[2], char *raw_command, char **envp)
+int	exec_command(
+	int pipe_a[2], int pipe_b[2], char *raw_command, char **envp)
 {
 	pid_t	pid;
 

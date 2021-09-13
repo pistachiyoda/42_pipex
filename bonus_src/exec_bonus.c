@@ -6,23 +6,21 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 23:50:42 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 13:17:51 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./pipex_bonus.h"
 
-int		exec_last_command(int pipe_a[2], char *raw_command, char **envp, char *filepath)
+int	exec_last_command(
+	int pipe_a[2], char *raw_command, char **envp, char *filepath)
 {
 	pid_t	pid;
 	int		file_fd;
 
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("fork()");
-		return (-1);
-	}
+		exit_with_perr("fork()", NULL, NULL);
 	if (pid == 0)
 	{
 		close(pipe_a[1]);
@@ -58,8 +56,6 @@ void	wait_pids(int *pids, int commands)
 	exit(WEXITSTATUS(status));
 }
 
-
-
 void	exec(int pipe_a[2], char **argv, char **envp, int argc)
 {
 	int		pids[10000];
@@ -69,7 +65,8 @@ void	exec(int pipe_a[2], char **argv, char **envp, int argc)
 
 	if (ft_strcmp(argv[1], "here_doc"))
 	{
-		pids[0] = exec_first_command_with_heredoc(pipe_a, argv[3], envp, argv[2]);
+		pids[0] = exec_first_command_with_heredoc(
+				pipe_a, argv[3], envp, argv[2]);
 		cmd_cnt = 2;
 	}
 	else
@@ -81,7 +78,8 @@ void	exec(int pipe_a[2], char **argv, char **envp, int argc)
 	while (i < cmd_cnt)
 	{
 		pipe(pipe_b);
-		pids[i] = exec_command(pipe_a, pipe_b, argv[argc - (cmd_cnt - i) - 1], envp);
+		pids[i] = exec_command(
+				pipe_a, pipe_b, argv[argc - (cmd_cnt - i) - 1], envp);
 		if (pids[i] == -1)
 			exit_with_perr("fork()", NULL, NULL);
 		close(pipe_a[0]);
@@ -91,9 +89,11 @@ void	exec(int pipe_a[2], char **argv, char **envp, int argc)
 		i++;
 	}
 	if (ft_strcmp(argv[1], "here_doc"))
-		pids[i] = exec_last_command(pipe_a, argv[argc - 2], envp, argv[argc - 1]);
+		pids[i] = exec_last_command(
+				pipe_a, argv[argc - 2], envp, argv[argc - 1]);
 	else
-		pids[i] = exec_last_command(pipe_a, argv[argc - 2], envp, argv[argc - 1]);
+		pids[i] = exec_last_command(
+				pipe_a, argv[argc - 2], envp, argv[argc - 1]);
 	if (pids[i] == -1)
 		exit_with_perr("fork()", NULL, NULL);
 	close(pipe_a[0]);

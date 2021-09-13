@@ -6,12 +6,12 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:50:31 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 23:04:52 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 00:08:28 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 # include <sys/types.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -43,8 +43,11 @@ void	exit_with_strerr(char *message, char *cmd_or_file,
 void	arg_error(int argc, char **argv);
 void	exec(int pipe_fds[2], char **argv, char **envp, int argc);
 int		ft_strcmp(char *a, char *b);
-int		exec_first_command_with_heredoc(int pipe_a[2], char *raw_command, char **envp, char *limiter);
+int		exec_first_command_with_heredoc(
+			int pipe_a[2], char *raw_command, char **envp, char *limiter);
 void	stdin_from_file(int pipe_a[2], char *filepath);
-int		exec_first_command_with_file(int pipe_a[2], char *raw_command, char **envp, char *filepath);
-int		exec_command(int pipe_a[2], int pipe_b[2], char *raw_command, char **envp);
+int		exec_first_command_with_file(
+			int pipe_a[2], char *raw_command, char **envp, char *filepath);
+int		exec_command(
+			int pipe_a[2], int pipe_b[2], char *raw_command, char **envp);
 #endif

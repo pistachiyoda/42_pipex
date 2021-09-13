@@ -6,13 +6,13 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/12 23:19:43 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 00:09:25 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./pipex_bonus.h"
 
-int		stdin_from_heredoc(int doc_pipe[2], char *limiter)
+int	stdin_from_heredoc(int doc_pipe[2], char *limiter)
 {
 	int		pid;
 	char	*line;
@@ -28,7 +28,7 @@ int		stdin_from_heredoc(int doc_pipe[2], char *limiter)
 			if (ft_strcmp(line, limiter))
 			{
 				free(line);
-				break;
+				break ;
 			}
 			write(doc_pipe[1], line, ft_strlen(line));
 			write(doc_pipe[1], "\n", 1);
@@ -40,7 +40,8 @@ int		stdin_from_heredoc(int doc_pipe[2], char *limiter)
 	return (pid);
 }
 
-int		exec_first_command_with_heredoc(int pipe_a[2], char *raw_command, char **envp, char *limiter)
+int	exec_first_command_with_heredoc(
+	int pipe_a[2], char *raw_command, char **envp, char *limiter)
 {
 	int		pid;
 	int		heredoc_pid;
