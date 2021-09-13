@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:50:31 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 19:12:18 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 20:34:03 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	exit_with_perr(
 void	check_readability(char *file);
 void	check_writability(char *file);
 int		open_file(char *file);
-int		open_or_create_appendfile(char *file);
+int		open_or_create_file(char *file, int open_flag);
 bool	is_executable(char *command);
 char	**get_env_str(char *key, char **envp);
 char	**split_command(char *unformatted_command);

@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 18:36:25 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 20:36:11 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,26 @@ int	open_file(char *file)
 	return (file_fd);
 }
 
-// ファイルを読み込み、書き込みができる、追記できる状態で開く。ファイルが存在しない場合は読み込み、書き込み権限を与えた状態でファイルを新規作成する。
-int	open_or_create_appendfile(char *file)
+// // ファイルを読み込み、書き込みができる、追記できる状態で開く。ファイルが存在しない場合は読み込み、書き込み権限を与えた状態でファイルを新規作成する。
+// int	open_or_create_appendfile(char *file)
+// {
+// 	int	file_fd;
+
+// 	file_fd = open(file, O_APPEND | O_RDWR | O_CREAT,
+// 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+// 	if (file_fd == -1)
+// 		exit_with_perr("open_or_create_appendfile()", NULL, NULL);
+// 	return (file_fd);
+// }
+
+// ファイルを読み込み、書き込みができる状態で開く。ファイルが存在しない場合は読み込み、書き込み権限を与えた状態でファイルを新規作成する。
+int	open_or_create_file(char *file, int open_flag)
 {
 	int	file_fd;
 
-	file_fd = open(file, O_APPEND | O_RDWR | O_CREAT,
+	file_fd = open(file, open_flag,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (file_fd == -1)
-		exit_with_perr("open_or_create_appendfile()", NULL, NULL);
+		exit_with_perr("open_or_create_file()", NULL, NULL);
 	return (file_fd);
 }

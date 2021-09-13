@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/13 19:09:39 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/13 21:55:16 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	exec_first(int pipe_a[2], t_cmdline_args *cmdline_args, int pids[10000])
 }
 
 int	exec_last_command(
-	int pipe_a[2], char *raw_command, char **envp, char *filepath)
+	int pipe_a[2], char *raw_command,
+	t_cmdline_args *cmdline_args, char *filepath)
 {
 	pid_t	pid;
 	int		file_fd;
@@ -55,30 +56,29 @@ int	exec_last_command(
 	{
 		handle_close(pipe_a[1]);
 		check_writability(filepath);
-		file_fd = open_or_create_appendfile(filepath);
+		if (ft_strcmp(cmdline_args->argv[1], "here_doc"))
+			file_fd = open_or_create_file(
+					filepath, O_APPEND | O_WRONLY | O_CREAT);
+		else
+			file_fd = open_or_create_file(
+					filepath, O_TRUNC | O_WRONLY | O_CREAT);
 		handle_close(0);
 		handle_dup2(pipe_a[0], 0);
 		handle_close(1);
 		handle_dup2(file_fd, 1);
 		handle_close(pipe_a[0]);
 		handle_close(file_fd);
-		handle_command(raw_command, envp);
+		handle_command(raw_command, cmdline_args->envp);
 	}
 	return (pid);
 }
 
 int	exec_last(int pipe_a[2], t_cmdline_args *cmdline_args)
 {
-	if (ft_strcmp(cmdline_args->argv[1], "here_doc"))
-		return (exec_last_command(
-				pipe_a, cmdline_args->argv[cmdline_args->argc - 2],
-				cmdline_args->envp,
-				cmdline_args->argv[cmdline_args->argc - 1]));
-	else
-		return (exec_last_command(
-				pipe_a, cmdline_args->argv[cmdline_args->argc - 2],
-				cmdline_args->envp,
-				cmdline_args->argv[cmdline_args->argc - 1]));
+	return (exec_last_command(
+			pipe_a, cmdline_args->argv[cmdline_args->argc - 2],
+			cmdline_args,
+			cmdline_args->argv[cmdline_args->argc - 1]));
 }
 
 void	exec(int pipe_a[2], t_cmdline_args *cmdline_args)
