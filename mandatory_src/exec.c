@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/10 16:31:59 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/14 10:07:54 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	exec(int pipe_fds[2], char **argv, char **envp)
 		exit_with_perr("close()", NULL, NULL);
 	if (close(pipe_fds[1]) == -1)
 		exit_with_perr("close()", NULL, NULL);
-	if (waitpid(first_pid, &status, 0) < 0)
+	if (waitpid(first_pid, &status, 0) == -1)
 		exit_with_perr("waitpid()", NULL, NULL);
-	if (waitpid(last_pid, &status, 0) < 0)
+	if (waitpid(last_pid, &status, 0) == -1)
 		exit_with_perr("waitpid()", NULL, NULL);
 	exit(WEXITSTATUS(status));
 }
