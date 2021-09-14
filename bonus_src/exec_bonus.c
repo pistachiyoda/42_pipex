@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/14 00:31:01 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/14 10:08:03 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void	wait_pids(int *pids, int commands)
 	int		status;
 
 	i = 0;
-	while (i < commands)
+	while (i < commands + 1)
 	{
-		waitpid(pids[i], &status, 0);
+		if (waitpid(pids[i], &status, 0) == -1)
+			exit_with_perr("waitpid()", NULL, NULL);
 		i++;
 	}
 	exit(WEXITSTATUS(status));
