@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 17:43:32 by fmai              #+#    #+#             */
-/*   Updated: 2021/09/14 10:08:03 by fmai             ###   ########.fr       */
+/*   Updated: 2021/09/14 19:10:20 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	wait_pids(int *pids, int commands)
 	int		status;
 
 	i = 0;
-	while (i < commands + 1)
+	while (i < commands)
 	{
 		if (waitpid(pids[i], &status, 0) == -1)
 			exit_with_perr("waitpid()", NULL, NULL);
@@ -84,7 +84,7 @@ void	exec(int pipe_a[2], t_cmdline_args *cmdline_args)
 
 	cmd_cnt = exec_first(pipe_a, cmdline_args, pids);
 	i = 1;
-	while (i < cmd_cnt)
+	while (i < cmd_cnt - 1)
 	{
 		if (pipe(pipe_b) == -1)
 			exit_with_perr("pipe()", NULL, NULL);
